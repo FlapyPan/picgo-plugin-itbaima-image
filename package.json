@@ -1,0 +1,30 @@
+{
+  "name": "picgo-plugin-itbaima-image",
+  "version": "1.0.0",
+  "description": "栢码官网图床 PicGo 插件",
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/FlapyPan/picgo-plugin-itbaima-image",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p .",
+    "dev": "tsc -w -p .",
+    "patch": "npm version patch && git push origin master && git push origin --tags",
+    "minor": "npm version minor && git push origin master && git push origin --tags",
+    "major": "npm version major && git push origin master && git push origin --tags"
+  },
+  "keywords": [
+    "picgo",
+    "picgo-gui-plugin",
+    "picgo-plugin"
+  ],
+  "author": "FlapyPan",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "16.9.1",
+    "picgo": "^1.5.0-alpha.13",
+    "typescript": "^4.8.4"
+  }
+}
