@@ -1,6 +1,6 @@
 {
   "name": "picgo-plugin-itbaima-image",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "栢码官网图床 PicGo 插件",
   "main": "dist/index.js",
   "publishConfig": {
@@ -10,10 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p .",
-    "dev": "tsc -w -p .",
-    "patch": "npm version patch && git push origin master && git push origin --tags",
-    "minor": "npm version minor && git push origin master && git push origin --tags",
-    "major": "npm version major && git push origin master && git push origin --tags"
+    "dev": "tsc -w -p ."
   },
   "keywords": [
     "picgo",
