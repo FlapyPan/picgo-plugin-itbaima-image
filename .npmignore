@@ -2,10 +2,9 @@ node_modules/
 yarn-error.log
 temp.js
 package-lock.json
-tsconfig.json
-tslint.json
+pnpm-lock.yaml
+rollup.config.mjs
 .vscode/
 src/
-.travis.yml
 .idea
 .github

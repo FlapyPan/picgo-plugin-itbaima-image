@@ -1,10 +1,16 @@
-import { IPicGo }                     from 'picgo'
+import { sleep } from './utils'
 import { checkConfig, getConfig, ID } from './config'
-import { DeleteResponse }             from './api'
-import { sleep }                      from './utils'
 
-export const registerListeners = (ctx: IPicGo) => {
-  ctx.on('remove', (imgList: any[]) => {
+/**
+ * @typedef {import('./api').DeleteResponse} DeleteResponse
+ */
+
+/**
+ * 注册事件监听器
+ * @param {IPicGo} ctx
+ */
+export const registerListeners = (ctx) => {
+  ctx.on('remove', (imgList) => {
     const config = getConfig(ctx)
     if (!checkConfig(ctx, config)) return
     const {url, apiToken} = config
@@ -13,7 +19,8 @@ export const registerListeners = (ctx: IPicGo) => {
     ;(async () => {
       for (const {fileName} of imgInfos) {
         try {
-          const response: DeleteResponse = await ctx.request({
+          /**  @type {DeleteResponse} */
+          const response = await ctx.request({
             url: `${deleteUrl}/${fileName}`,
             method: 'GET',
             headers: {

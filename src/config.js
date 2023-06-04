@@ -1,21 +1,40 @@
-import { IPicGo, IPluginConfig } from 'picgo'
+/**
+ * @typedef {import('picgo').IPicGo} IPicGo
+ * @typedef {import('picgo').IPluginConfig} IPluginConfig
+ */
 
-export interface PluginConfig {
-  url: string,
-  apiToken: string
-}
+/**
+ * 插件配置结构
+ * @typedef {Object} PluginConfig
+ * @property {string} url
+ * @property {string} apiToken
+ */
 
 export const ID = 'itbaima'
 export const SETTING_NAME = 'picBed.itbaima'
 
-export const defaultConfig = (): PluginConfig => ({
+/**
+ * 获取默认配置
+ * @returns {PluginConfig}
+ */
+export const defaultConfig = () => ({
   url: 'https://image.itbaima.net/image/api/v1',
   apiToken: '',
 })
 
-export const getConfig = (ctx: IPicGo): PluginConfig => ctx.getConfig(SETTING_NAME)
+/**
+ * 获取存储的配置
+ * @param {IPicGo} ctx
+ * @return {PluginConfig}
+ */
+export const getConfig = (ctx) => ctx.getConfig(SETTING_NAME)
 
-export const config = (ctx: IPicGo): IPluginConfig[] => {
+/**
+ * 获取配置信息
+ * @param {IPicGo} ctx
+ * @return {IPluginConfig[]}
+ */
+export const config = (ctx) => {
   let pluginConfig = getConfig(ctx) ?? defaultConfig()
   return [
     {
@@ -37,7 +56,14 @@ export const config = (ctx: IPicGo): IPluginConfig[] => {
   ]
 }
 
-export const checkConfig = (ctx: IPicGo, {url, apiToken}: PluginConfig): boolean => {
+/**
+ * 检查配置
+ * @param {IPicGo} ctx
+ * @param {PluginConfig} config
+ * @return {boolean}
+ */
+export const checkConfig = (ctx, config) => {
+  const {url, apiToken} = config
   if (url.trim() === '') {
     ctx.emit('notification', {
       title: '请先配置上传地址',

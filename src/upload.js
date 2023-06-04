@@ -1,9 +1,19 @@
-import { IPicGo }                                  from 'picgo'
-import { checkConfig, getConfig }                  from './config'
-import { isUploadResponseMessage, UploadResponse } from './api'
-import { sleep }                                   from './utils'
+import { checkConfig, getConfig } from './config'
+import { isUploadResponseMessage } from './api'
+import { sleep } from './utils'
 
-export const uploadHandle = async (ctx: IPicGo) => {
+/**
+ * @typedef {import('picgo').IPicGo} IPicGo
+ * @typedef {import('picgo').IPluginConfig} IPluginConfig
+ * @typedef {import('./api').UploadResponse} UploadResponse
+ */
+
+/**
+ * 上传处理器
+ * @param {IPicGo} ctx
+ * @return {Promise<void>}
+ */
+export const uploadHandle = async (ctx) => {
   const config = getConfig(ctx)
   if (!checkConfig(ctx, config)) return
   const {url, apiToken} = config
@@ -13,7 +23,8 @@ export const uploadHandle = async (ctx: IPicGo) => {
     const {fileName, buffer, base64Image} = imgList[i]
     const img = (!buffer) ? Buffer.from(base64Image) : buffer
     try {
-      const response: UploadResponse = await ctx.request({
+      /** @type {UploadResponse} */
+      const response = await ctx.request({
         url: uploadUrl,
         method: 'POST',
         headers: {

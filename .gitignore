@@ -4,6 +4,7 @@ dist/
 yarn-error.log
 temp.js
 package-lock.json
+pnpm-lock.yaml
 .vscode
 .idea
 .github
