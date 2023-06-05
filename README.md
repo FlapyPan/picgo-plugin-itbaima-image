@@ -14,7 +14,7 @@ Author: [FlapyPan](https://github.com/flapypan)
 
 - 插件安装完后请在配置中添加 API token
 - 最大可上传**3.0MB**的图片
-- ~~插件暂时不支持同步删除图片~~ v1.0.1 ≤ 已支持
+- 支持同步删除图片
 
 #### 安装和配置
 

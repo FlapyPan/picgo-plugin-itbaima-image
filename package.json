@@ -6,7 +6,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://github.com/FlapyPan/picgo-plugin-itbaima-image",
+  "homepage": "https://itbaima.net/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
@@ -17,7 +17,6 @@
     "picgo-plugin"
   ],
   "author": "FlapyPan",
-  "license": "MIT",
   "devDependencies": {
     "@babel/preset-env": "^7.22.4",
     "@rollup/plugin-babel": "^6.0.3",
