@@ -36,7 +36,7 @@ export const registerListeners = (ctx) => {
               body: response?.message ?? '未知错误，请检查日志并与开发者取得联系',
             })
           }
-          await sleep(500)
+          await sleep(200)
         } catch (e) {
           ctx.log.error(e)
           ctx.emit('notification', {
