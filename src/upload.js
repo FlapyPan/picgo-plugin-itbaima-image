@@ -16,8 +16,8 @@ import { sleep } from './utils'
 export const uploadHandle = async (ctx) => {
   const config = getConfig(ctx)
   if (!checkConfig(ctx, config)) return
-  const {url, apiToken} = config
-  const uploadUrl = url.endsWith('/') ? `${url}upload` : `${url}/upload`
+  const {apiV1, apiToken} = config
+  const uploadUrl = apiV1.endsWith('/') ? `${apiV1}upload` : `${apiV1}/upload`
   const imgList = ctx.output
   for (const i in imgList) {
     const {fileName, buffer, base64Image} = imgList[i]

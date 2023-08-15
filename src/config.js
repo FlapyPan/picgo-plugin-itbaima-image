@@ -6,7 +6,7 @@
 /**
  * 插件配置结构
  * @typedef {Object} PluginConfig
- * @property {string} url
+ * @property {string} apiV1
  * @property {string} apiToken
  */
 
@@ -15,10 +15,10 @@ export const SETTING_NAME = 'picBed.itbaima'
 
 /**
  * 获取默认配置
- * @returns {PluginConfig}
+ * @returns {{apiV1: string, apiToken: string}}
  */
 export const defaultConfig = () => ({
-  url: 'https://image.itbaima.net/image/api/v1',
+  apiV1: 'https://api.itbaima.net/image/api/v1',
   apiToken: '',
 })
 
@@ -38,9 +38,9 @@ export const config = (ctx) => {
   let pluginConfig = getConfig(ctx) ?? defaultConfig()
   return [
     {
-      name: 'url',
+      name: 'apiV1',
       type: 'input',
-      default: pluginConfig.url,
+      default: pluginConfig.apiV1,
       required: true,
       message: 'API 地址',
       alias: 'API 地址',
@@ -63,8 +63,8 @@ export const config = (ctx) => {
  * @return {boolean}
  */
 export const checkConfig = (ctx, config) => {
-  const {url, apiToken} = config
-  if (url.trim() === '') {
+  const {apiV1, apiToken} = config
+  if (apiV1.trim() === '') {
     ctx.emit('notification', {
       title: '请先配置上传地址',
     })

@@ -13,8 +13,8 @@ export const registerListeners = (ctx) => {
   ctx.on('remove', (imgList) => {
     const config = getConfig(ctx)
     if (!checkConfig(ctx, config)) return
-    const {url, apiToken} = config
-    const deleteUrl = url.endsWith('/') ? `${url}delete` : `${url}/delete`
+    const {apiV1, apiToken} = config
+    const deleteUrl = apiV1.endsWith('/') ? `${apiV1}delete` : `${apiV1}/delete`
     const imgInfos = imgList.filter(({type}) => type === ID)
     ;(async () => {
       for (const {fileName} of imgInfos) {

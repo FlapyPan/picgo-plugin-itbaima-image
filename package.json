@@ -1,6 +1,6 @@
 {
   "name": "picgo-plugin-itbaima-image",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "栢码官网图床 PicGo 插件",
   "main": "dist/index.min.js",
   "publishConfig": {
@@ -8,7 +8,6 @@
   },
   "homepage": "https://itbaima.net/",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
   },
   "keywords": [
@@ -18,12 +17,12 @@
   ],
   "author": "FlapyPan",
   "devDependencies": {
-    "@babel/preset-env": "^7.22.4",
+    "@babel/preset-env": "^7.22.10",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
     "@types/node": "16.9.1",
-    "picgo": "^1.5.0-alpha.13",
-    "rollup": "^3.23.0"
+    "picgo": "^1.5.4",
+    "rollup": "^3.28.0"
   }
 }
