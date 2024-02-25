@@ -2,14 +2,12 @@
   "name": "picgo-plugin-itbaima-image",
   "version": "1.1.0",
   "description": "栢码官网图床 PicGo 插件",
-  "main": "dist/index.min.js",
+  "type": "commonjs",
+  "main": "main.js",
   "publishConfig": {
     "access": "public"
   },
   "homepage": "https://itbaima.net/",
-  "scripts": {
-    "build": "rollup -c"
-  },
   "keywords": [
     "picgo",
     "picgo-gui-plugin",
@@ -17,12 +15,6 @@
   ],
   "author": "FlapyPan",
   "devDependencies": {
-    "@babel/preset-env": "^7.22.10",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-node-resolve": "^15.1.0",
-    "@rollup/plugin-terser": "^0.4.3",
-    "@types/node": "16.9.1",
-    "picgo": "^1.5.4",
-    "rollup": "^3.28.0"
+    "picgo": "^1.5.6"
   }
 }
