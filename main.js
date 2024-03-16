@@ -8,7 +8,6 @@
 /**
  * 插件配置结构
  * @typedef {Object} PluginConfig
- * @property {string} apiV1
  * @property {string} apiToken
  */
 
@@ -42,15 +41,19 @@
  */
 
 const ID = 'itbaima'
+const NAME = '栢码图床'
 const SETTING_NAME = 'picBed.itbaima'
+const BASE_API_URL = 'https://api.itbaima.cn/image/api/v1'
+const UPLOAD_API_URL = `${BASE_API_URL}/upload`
+const DELETE_API_URL = `${BASE_API_URL}/delete`
+const WEB_URL = 'https://www.itbaima.cn/space/images'
 
 /**
  * 获取默认配置
- * @returns {{apiV1: string, apiToken: string}}
+ * @returns {PluginConfig}
  */
 function defaultConfig() {
   return {
-    apiV1: 'https://api.itbaima.net/image/api/v1',
     apiToken: '',
   }
 }
@@ -71,14 +74,6 @@ function config(ctx) {
   const pluginConfig = getConfig(ctx) ?? defaultConfig()
   return [
     {
-      name: 'apiV1',
-      type: 'input',
-      default: pluginConfig.apiV1,
-      required: true,
-      message: 'API 地址',
-      alias: 'API 地址',
-    },
-    {
       name: 'apiToken',
       type: 'input',
       default: pluginConfig.apiToken,
@@ -96,13 +91,7 @@ function config(ctx) {
  * @return {boolean}
  */
 function checkConfig(ctx, config) {
-  const { apiV1, apiToken } = config
-  if (apiV1.trim() === '') {
-    ctx.emit('notification', {
-      title: '请先配置上传地址',
-    })
-    return false
-  }
+  const { apiToken } = config
   if (apiToken.trim() === '') {
     ctx.emit('notification', {
       title: '请先配置 API 密钥',
@@ -119,6 +108,27 @@ function checkConfig(ctx, config) {
  */
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)) }
 
+function uploadPostOptions(apiToken, img, filename) {
+  return {
+    url: UPLOAD_API_URL,
+    method: 'POST',
+    headers: {
+      'User-Agent': 'PicGo',
+      'Authorization': apiToken,
+    },
+    formData: {
+      file: {
+        value: img,
+        options: {
+          filename,
+        },
+      },
+      ssl: 'true',
+    },
+    json: true,
+  }
+}
+
 /**
  * 上传处理器
  * @param {IPicGo} ctx
@@ -127,32 +137,14 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)) }
 async function uploadHandle(ctx) {
   const config = getConfig(ctx)
   if (!checkConfig(ctx, config)) return
-  const { apiV1, apiToken } = config
-  const uploadUrl = apiV1.endsWith('/') ? `${apiV1}upload` : `${apiV1}/upload`
+  const { apiToken } = config
   const imgList = ctx.output
-  for (const i in imgList) {
+  const task = async (i) => {
     const { fileName, buffer, base64Image } = imgList[i]
-    const img = !buffer ? Buffer.from(base64Image) : buffer
+    const img = buffer ? buffer : Buffer.from(base64Image)
     try {
       /** @type {UploadResponse} */
-      const response = await ctx.request({
-        url: uploadUrl,
-        method: 'POST',
-        headers: {
-          'User-Agent': 'PicGo',
-          'Authorization': apiToken,
-        },
-        formData: {
-          file: {
-            value: img,
-            options: {
-              filename: fileName,
-            },
-          },
-          ssl: 'true',
-        },
-        json: true,
-      })
+      const response = await ctx.request(uploadPostOptions(apiToken, img, fileName))
       if (response?.success) {
         delete imgList[i].base64Image
         delete imgList[i].buffer
@@ -176,58 +168,83 @@ async function uploadHandle(ctx) {
       } else {
         ctx.emit('notification', {
           title: `上传失败 ${fileName}`,
-          body: JSON.stringify(
-            e.message ?? '未知错误，请检查日志并与开发者取得联系'),
+          body: JSON.stringify(e.message ?? '未知错误，请检查日志并与开发者取得联系'),
         })
       }
     }
   }
+  for (const i in imgList) await task(i)
+}
+
+function removePostOptions(apiToken, fileName) {
+  return {
+    url: `${DELETE_API_URL}/${fileName}`,
+    method: 'GET',
+    headers: {
+      'User-Agent': 'PicGo',
+      'Authorization': apiToken,
+    },
+    json: true,
+  }
 }
 
 /**
- * 注册事件监听器
+ * 注册删除事件监听器
  * @param {IPicGo} ctx
  */
-function registerListeners(ctx) {
-  ctx.on('remove', (imgList) => {
+function registerRemoveListener(ctx) {
+  const listener = async (imgList, guiApi) => {
     const config = getConfig(ctx)
     if (!checkConfig(ctx, config)) return
-    const { apiV1, apiToken } = config
-    const deleteUrl = apiV1.endsWith('/') ? `${apiV1}delete` : `${apiV1}/delete`
-    const imgInfos = imgList.filter(({ type }) => type === ID)
-    ;(async () => {
-      for (const { fileName } of imgInfos) {
-        try {
-          /**  @type {DeleteResponse} */
-          const response = await ctx.request({
-            url: `${deleteUrl}/${fileName}`,
-            method: 'GET',
-            headers: {
-              'User-Agent': 'PicGo',
-              'Authorization': apiToken,
-            },
-            json: true,
-          })
-          if (!response?.success) {
-            ctx.log.error(JSON.stringify(response))
-            ctx.emit('notification', {
-              title: `远程图片删除失败 ${fileName}`,
-              body: response?.message ??
-                '未知错误，请检查日志并与开发者取得联系',
-            })
-          }
-          await sleep(200)
-        } catch (e) {
-          ctx.log.error(e)
+    const { apiToken } = config
+    const task = async (fileName) => {
+      try {
+        /**  @type {DeleteResponse} */
+        const response = await ctx.request(removePostOptions(apiToken, fileName))
+        if (!response?.success) {
+          ctx.log.error(JSON.stringify(response))
           ctx.emit('notification', {
             title: `远程图片删除失败 ${fileName}`,
-            body: JSON.stringify(
-              e.message ?? '未知错误，请检查日志并与开发者取得联系'),
+            body: response?.message ?? '未知错误，请检查日志并与开发者取得联系',
           })
         }
+        await sleep(200)
+      } catch (e) {
+        ctx.log.error(e)
+        ctx.emit('notification', {
+          title: `远程图片删除失败 ${fileName}`,
+          body: JSON.stringify(e.message ?? '未知错误，请检查日志并与开发者取得联系'),
+        })
       }
-    })()
-  })
+    }
+    const imgInfos = imgList.filter(({ type }) => type === ID)
+    for (const { fileName } of imgInfos) await task(fileName)
+  }
+  ctx.on('remove', listener)
+}
+
+function openBrowser(url) {
+  const { exec } = require('child_process')
+  const platform = require('os').platform()
+  if (platform === 'win32') {
+    exec(`start ${url}`)
+  } else if (process.platform === 'darwin') {
+    exec(`open ${url}`)
+  } else {
+    exec(`xdg-open ${url}`)
+  }
+}
+
+/**
+ * 插件菜单
+ */
+function guiMenu() {
+  return [
+    {
+      label: '在浏览器中打开图床',
+      handle: () => openBrowser(WEB_URL),
+    },
+  ]
 }
 
 /**
@@ -235,16 +252,18 @@ function registerListeners(ctx) {
  * @param {IPicGo} ctx
  */
 function main(ctx) {
+  const register = () => {
+    ctx.helper.uploader.register(ID, {
+      name: NAME,
+      handle: uploadHandle,
+      config,
+    })
+    registerRemoveListener(ctx)
+  }
   return {
     uploader: ID,
-    register: () => {
-      ctx.helper.uploader.register(ID, {
-        name: '栢码程序员 图床',
-        config,
-        handle: uploadHandle,
-      })
-      registerListeners(ctx)
-    },
+    register,
+    guiMenu,
   }
 }
 

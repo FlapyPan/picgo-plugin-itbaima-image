@@ -1,13 +1,13 @@
 {
   "name": "picgo-plugin-itbaima-image",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "栢码官网图床 PicGo 插件",
   "type": "commonjs",
   "main": "main.js",
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://itbaima.net/",
+  "homepage": "https://itbaima.cn/",
   "keywords": [
     "picgo",
     "picgo-gui-plugin",

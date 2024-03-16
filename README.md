@@ -20,8 +20,8 @@ Author: [FlapyPan](https://github.com/flapypan)
 
 直接在 picgo 插件设置里搜索 itbaima-image 安装
 
-![搜索 itbaima](https://image.itbaima.net/images/24/image-20230616142746953.jpeg)
+![插件安装](https://image.itbaima.cn/images/24/image-2024031622933563.png)
 
 配置
 
-![配置 api](https://image.itbaima.net/images/24/image-20230616158552215.jpeg)
+![配置 api](https://image.itbaima.cn/images/24/image-20240316222548829.png)
