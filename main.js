@@ -40,9 +40,9 @@
  * @property {string} message - 返回信息
  */
 
-const ID = 'itbaima'
+const ID = 'itbaima-v1'
 const NAME = '栢码图床'
-const SETTING_NAME = 'picBed.itbaima'
+const SETTING_NAME = 'picBed.itbaima.v1'
 const BASE_API_URL = 'https://api.itbaima.cn/image/api/v1'
 const UPLOAD_API_URL = `${BASE_API_URL}/upload`
 const DELETE_API_URL = `${BASE_API_URL}/delete`
