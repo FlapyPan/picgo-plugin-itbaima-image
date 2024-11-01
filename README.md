@@ -1,27 +1,15 @@
-## picgo-plugin-itbaima-image
+![logo](https://www.itbaima.cn/image/space/picgo-plugin.webp)
 
-PicGo插件，添加栢码官网图床支持
+## Picgo Plugin ItBaima Image
 
----
-
-plugin for [PicGo](https://github.com/Molunerfinn/PicGo)
-
-Author: [FlapyPan](https://github.com/flapypan)
-
----
-
-#### 注意事项和使用方法
-
-- 插件安装完后请在配置中添加 API token
-- 最大可上传**10.0MB**的图片
-- 支持同步删除图片
+为 [PicGo](https://github.com/Molunerfinn/PicGo) 添加 [栢码®](https://www.itbaima.cn/) 知识之海云空间图床支持
 
 #### 安装和配置
 
-直接在 picgo 插件设置里搜索 itbaima-image 安装
+在 PicGo 插件设置里搜索 `itbaima-image` 进行安装
 
-![插件安装](https://image.itbaima.cn/images/24/image-2024031622933563.png)
+![插件安装](https://oss.itbaima.cn/internal/static/space/plugin/817fb08fe715f1576e20b1171b2403c6.png)
 
-配置
+安装后在图床设置找到栢码云进行配置
 
-![配置 api](https://image.itbaima.cn/images/24/image-20240316222548829.png)
+![配置 api](https://oss.itbaima.cn/internal/static/space/plugin/bbd3da57a51a9665abac8e0c6dd0a020.png)

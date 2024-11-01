@@ -1,13 +1,13 @@
 {
   "name": "picgo-plugin-itbaima-image",
-  "version": "1.1.1",
-  "description": "栢码官网图床 PicGo 插件",
+  "version": "2.0.1",
+  "description": "栢码知识之海图床 PicGo 插件",
   "type": "commonjs",
   "main": "main.js",
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://itbaima.cn/",
+  "homepage": "https://www.itbaima.cn/",
   "keywords": [
     "picgo",
     "picgo-gui-plugin",
@@ -15,6 +15,6 @@
   ],
   "author": "FlapyPan",
   "devDependencies": {
-    "picgo": "^1.5.6"
+    "picgo": "^1.5.7"
   }
 }
